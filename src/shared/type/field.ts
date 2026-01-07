@@ -1,10 +1,5 @@
+import { JOB_OPTIONS } from './common';
 // ========== Constants ==========
-export const JOB_OPTIONS = [
-  { value: '' },
-  { value: '개발자' },
-  { value: 'PO' },
-  { value: '디자이너' },
-] as readonly { value: Job }[];
 
 export const FIELD_LABELS = {
   name: '이름',
@@ -17,11 +12,6 @@ export const FIELD_LABELS = {
 
 // ========== Types ==========
 
-export type Job =
-  | ''
-  | '개발자'
-  | 'PO'
-  | '디자이너';
 export type FieldType =
   | 'text'
   | 'textarea'
