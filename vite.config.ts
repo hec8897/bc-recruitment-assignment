@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      // eslint-disable-next-line
       '@': path.resolve(__dirname, './src'),
     },
   },
