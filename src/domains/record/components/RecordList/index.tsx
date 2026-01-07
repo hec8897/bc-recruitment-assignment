@@ -1,5 +1,17 @@
 import React from 'react';
 
-export const RecordList = () => {
-  return <div>RecordList</div>;
-};
+import RecordHead from './RecordHead';
+import styled from '@emotion/styled';
+
+export default function RecordList() {
+  return (
+    <Container>
+      <RecordHead />
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  width: 1297px;
+  margin: 0 auto;
+`;
