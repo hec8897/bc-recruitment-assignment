@@ -1,69 +1,67 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+
 import { Table } from 'antd';
-import type {
-  TableColumnsType,
-  TableProps,
-} from 'antd';
+import { columns } from './columns';
 
 import { mockRecordData } from '@/domains/record/mock/recordData';
+
+import styled from '@emotion/styled';
+import type { TableProps } from 'antd';
 import type { Record } from '@/shared/type';
 
-const columns: TableColumnsType<Record> = [
-  {
-    title: '이름',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: '주소',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: '메모',
-    dataIndex: 'memo',
-    key: 'memo',
-  },
-  {
-    title: '직업',
-    dataIndex: 'job',
-    key: 'job',
-  },
-  {
-    title: '이메일 수신 동의',
-    dataIndex: 'emailAgree',
-    key: 'emailAgree',
-  },
-];
-
-const rowSelection: TableProps<Record>['rowSelection'] =
-  {
-    onChange: (
-      selectedRowKeys: React.Key[],
-      selectedRows: Record[]
-    ) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record: Record) => ({
-      name: record.name,
-    }),
-  };
-
 export default function RecordTable() {
+  const rowSelection: TableProps<Record>['rowSelection'] =
+    useMemo(
+      () => ({
+        onChange: (
+          selectedRowKeys: React.Key[],
+          selectedRows: Record[]
+        ) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            'selectedRows:',
+            selectedRows
+          );
+        },
+      }),
+      []
+    );
+
   return (
-    <div>
+    <TableWrapper>
       <Table<Record>
+        rowKey="id"
         rowSelection={{
           type: 'checkbox',
           ...rowSelection,
         }}
         columns={columns}
         dataSource={mockRecordData}
+        pagination={false}
       />
-    </div>
+    </TableWrapper>
   );
 }
+
+const TableWrapper = styled.div`
+  border-top: 1px solid #0000000f;
+
+  .ant-table {
+    font-size: 14px;
+  }
+
+  .ant-table-thead > tr > th {
+    height: 38px;
+    padding: 8px 12px;
+  }
+
+  .ant-table-tbody > tr > td {
+    height: 48px;
+    padding: 8px 12px;
+  }
+
+  // 체크박스 border
+  .ant-table-tbody .ant-table-selection-column {
+    border-right: 1px solid #0000000f;
+  }
+`;
