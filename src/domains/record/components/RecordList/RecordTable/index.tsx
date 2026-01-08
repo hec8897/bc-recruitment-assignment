@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import { Table } from 'antd';
-import { columns } from './columns';
+import useTableColumns from './useTableColumns';
 
 import { mockRecordData } from '@/domains/record/mock/recordData';
 
@@ -10,6 +10,7 @@ import type { TableProps } from 'antd';
 import type { Record } from '@/shared/type';
 
 export default function RecordTable() {
+  const columns = useTableColumns();
   const rowSelection: TableProps<Record>['rowSelection'] =
     useMemo(
       () => ({
