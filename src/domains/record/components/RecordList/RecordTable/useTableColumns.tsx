@@ -22,7 +22,6 @@ export default function useTableColumns({
   const { getUniqueValues, setFilter } =
     useRecordStore();
 
-  // ✅ 개선: Helper 함수로 추출
   const createFilterDropdown =
     (field: FieldID, width: number) => () => (
       <CheckboxListFilter
@@ -140,7 +139,6 @@ export default function useTableColumns({
           <RecordActionDropdown
             id={record.id}
             onEdit={(id) => onEditClick({ id })}
-            onDelete={() => {}}
           />
         ),
       },
