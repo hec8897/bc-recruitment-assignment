@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 
 import type {
   FieldID,
@@ -20,6 +21,7 @@ interface RecordState {
     values: Record[FieldID][] // 배열
   ) => void;
   getFilteredRecords: () => Record[];
+  addRecord: (record: Omit<Record, 'id'>) => void;
 }
 
 const isMatchFilter = (
@@ -104,6 +106,18 @@ export const useRecordStore = create<RecordState>(
           );
         });
       });
+    },
+    addRecord: (
+      newRecord: Omit<Record, 'id'>
+    ) => {
+      const id = uuidv4();
+
+      set((state) => ({
+        records: [
+          ...state.records,
+          { ...newRecord, id },
+        ],
+      }));
     },
   })
 );
