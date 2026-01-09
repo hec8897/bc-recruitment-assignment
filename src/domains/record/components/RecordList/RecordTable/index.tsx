@@ -3,9 +3,9 @@ import React, { useMemo } from 'react';
 import { Table } from 'antd';
 import useTableColumns from './useTableColumns';
 
-import { mockRecordData } from '@/domains/record/mock/recordData';
-
+import { useRecordStore } from '@/store/recordStore';
 import styled from '@emotion/styled';
+
 import type { TableProps } from 'antd';
 import type { Record } from '@/shared/type';
 
@@ -16,9 +16,15 @@ interface RecordTableProps {
 export default function RecordTable({
   onEditClick,
 }: RecordTableProps) {
+  const getFilteredRecords = useRecordStore(
+    (state) => state.getFilteredRecords
+  );
+  const records = getFilteredRecords();
+
   const columns = useTableColumns({
     onEditClick,
   });
+
   const rowSelection: TableProps<Record>['rowSelection'] =
     useMemo(
       () => ({
@@ -45,7 +51,7 @@ export default function RecordTable({
           ...rowSelection,
         }}
         columns={columns}
-        dataSource={mockRecordData}
+        dataSource={records}
         pagination={false}
       />
     </TableWrapper>

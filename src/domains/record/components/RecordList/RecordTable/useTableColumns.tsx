@@ -5,7 +5,12 @@ import CheckboxListFilter from './filters/CheckboxListFilter';
 import RecordActionDropdown from './actions/RecordActionDropdown';
 
 import type { TableColumnsType } from 'antd';
-import type { Record } from '@/shared/type';
+import type {
+  FieldID,
+  Record,
+} from '@/shared/type';
+import { useRecordStore } from '@/store/recordStore';
+import dayjs from 'dayjs';
 
 interface UseTableColumnsProps {
   onEditClick: (id: Pick<Record, 'id'>) => void;
@@ -14,6 +19,25 @@ interface UseTableColumnsProps {
 export default function useTableColumns({
   onEditClick,
 }: UseTableColumnsProps): TableColumnsType<Record> {
+  const { getUniqueValues, setFilter } =
+    useRecordStore();
+
+  // ✅ 개선: Helper 함수로 추출
+  const createFilterDropdown =
+    (field: FieldID, width: number) => () => (
+      <CheckboxListFilter
+        width={width}
+        options={getUniqueValues(field).map(
+          (value) => ({
+            value: value as string,
+          })
+        )}
+        onChange={(value) =>
+          setFilter(field, value)
+        }
+      />
+    );
+
   return useMemo(() => {
     return [
       {
@@ -21,11 +45,9 @@ export default function useTableColumns({
         dataIndex: 'name',
         key: 'name',
         width: 120,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={120}
-            options={[{ value: 'foobar' }]}
-          />
+        filterDropdown: createFilterDropdown(
+          'name',
+          120
         ),
       },
       {
@@ -33,11 +55,9 @@ export default function useTableColumns({
         dataIndex: 'address',
         key: 'address',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={[{ value: '주소' }]}
-          />
+        filterDropdown: createFilterDropdown(
+          'address',
+          249
         ),
       },
       {
@@ -45,11 +65,9 @@ export default function useTableColumns({
         dataIndex: 'memo',
         key: 'memo',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={[{ value: '메모' }]}
-          />
+        filterDropdown: createFilterDropdown(
+          'memo',
+          249
         ),
       },
       {
@@ -57,10 +75,21 @@ export default function useTableColumns({
         dataIndex: 'joinDate',
         key: 'joinDate',
         width: 200,
+        render: (date: Date) =>
+          dayjs(date).format('YYYY-MM-DD'),
         filterDropdown: () => (
           <CheckboxListFilter
             width={200}
-            options={[{ value: '가입일' }]}
+            onChange={(value) => {
+              setFilter('joinDate', value);
+            }}
+            options={getUniqueValues(
+              'joinDate'
+            ).map((date) => ({
+              value: dayjs(date as Date).format(
+                'YYYY-MM-DD'
+              ) as string,
+            }))}
           />
         ),
       },
@@ -69,11 +98,9 @@ export default function useTableColumns({
         dataIndex: 'job',
         key: 'job',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={[{ value: '직업' }]}
-          />
+        filterDropdown: createFilterDropdown(
+          'job',
+          249
         ),
       },
       {
@@ -84,9 +111,18 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={150}
+            onChange={(values) => {
+              setFilter(
+                'emailAgree',
+                values as boolean[]
+              );
+            }}
             options={[
-              { value: '선택됨' },
-              { value: '선택 안함' },
+              { value: true, label: '선택됨' },
+              {
+                value: false,
+                label: '선택 안함',
+              },
             ]}
           />
         ),
@@ -109,5 +145,5 @@ export default function useTableColumns({
         ),
       },
     ];
-  }, [onEditClick]);
+  }, [onEditClick, getUniqueValues, setFilter]);
 }
