@@ -5,7 +5,10 @@ import CheckboxListFilter from './filters/CheckboxListFilter';
 import RecordActionDropdown from './actions/RecordActionDropdown';
 
 import type { TableColumnsType } from 'antd';
-import type { Record } from '@/shared/type';
+import type {
+  FieldID,
+  Record,
+} from '@/shared/type';
 import { useRecordStore } from '@/store/recordStore';
 import dayjs from 'dayjs';
 
@@ -19,6 +22,22 @@ export default function useTableColumns({
   const { getUniqueValues, setFilter } =
     useRecordStore();
 
+  // ✅ 개선: Helper 함수로 추출
+  const createFilterDropdown =
+    (field: FieldID, width: number) => () => (
+      <CheckboxListFilter
+        width={width}
+        options={getUniqueValues(field).map(
+          (value) => ({
+            value: value as string,
+          })
+        )}
+        onChange={(value) =>
+          setFilter(field, value)
+        }
+      />
+    );
+
   return useMemo(() => {
     return [
       {
@@ -26,18 +45,9 @@ export default function useTableColumns({
         dataIndex: 'name',
         key: 'name',
         width: 120,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={120}
-            options={getUniqueValues('name').map(
-              (value) => ({
-                value,
-              })
-            )}
-            onChange={(value) => {
-              setFilter('name', value);
-            }}
-          />
+        filterDropdown: createFilterDropdown(
+          'name',
+          120
         ),
       },
       {
@@ -45,18 +55,9 @@ export default function useTableColumns({
         dataIndex: 'address',
         key: 'address',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={getUniqueValues(
-              'address'
-            ).map((value) => ({
-              value,
-            }))}
-            onChange={(value) => {
-              setFilter('address', value);
-            }}
-          />
+        filterDropdown: createFilterDropdown(
+          'address',
+          249
         ),
       },
       {
@@ -64,18 +65,9 @@ export default function useTableColumns({
         dataIndex: 'memo',
         key: 'memo',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={getUniqueValues('memo').map(
-              (value) => ({
-                value,
-              })
-            )}
-            onChange={(value) => {
-              setFilter('memo', value);
-            }}
-          />
+        filterDropdown: createFilterDropdown(
+          'memo',
+          249
         ),
       },
       {
@@ -94,8 +86,9 @@ export default function useTableColumns({
             options={getUniqueValues(
               'joinDate'
             ).map((date) => ({
-              value:
-                dayjs(date).format('YYYY-MM-DD'),
+              value: dayjs(date as Date).format(
+                'YYYY-MM-DD'
+              ) as string,
             }))}
           />
         ),
@@ -105,18 +98,9 @@ export default function useTableColumns({
         dataIndex: 'job',
         key: 'job',
         width: 249,
-        filterDropdown: () => (
-          <CheckboxListFilter
-            width={249}
-            options={getUniqueValues('job').map(
-              (value) => ({
-                value,
-              })
-            )}
-            onChange={(value) => {
-              setFilter('job', value);
-            }}
-          />
+        filterDropdown: createFilterDropdown(
+          'job',
+          249
         ),
       },
       {

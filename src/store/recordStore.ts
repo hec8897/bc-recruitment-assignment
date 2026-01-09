@@ -12,7 +12,9 @@ type FilterState = {
 interface RecordState {
   records: Record[];
   filters: FilterState;
-  getUniqueValues: (field: FieldID) => string[];
+  getUniqueValues: (
+    field: FieldID
+  ) => (string | boolean | Date)[];
   setFilter: (
     field: FieldID,
     values: Record[FieldID][] // 배열
@@ -75,9 +77,7 @@ export const useRecordStore = create<RecordState>(
     getUniqueValues: (field: FieldID) => {
       const records = get().records;
       return Array.from(
-        new Set(
-          records.map((r) => r[field] as string)
-        )
+        new Set(records.map((r) => r[field]))
       );
     },
     setFilter: (

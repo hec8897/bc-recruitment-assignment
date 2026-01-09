@@ -14,7 +14,7 @@ interface CheckboxListFilterProps {
     value: string | boolean;
     label?: string;
   }[];
-  onChange: (
+  onChange?: (
     values: (string | boolean)[]
   ) => void;
 }
@@ -36,7 +36,7 @@ export default function CheckboxListFilter({
       : selectedValues.filter((v) => v !== value); // 언체크: 제거
 
     setSelectedValues(newValues);
-    onChange(newValues);
+    onChange?.(newValues);
   };
 
   return (
@@ -50,6 +50,9 @@ export default function CheckboxListFilter({
             key={`${option.value}-${index}`}
           >
             <Checkbox
+              checked={selectedValues.includes(
+                option.value
+              )}
               onChange={(e) => {
                 const checked = e.target.checked;
                 handleChange(
