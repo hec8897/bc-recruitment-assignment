@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
@@ -8,13 +7,3 @@
   "arrowParens": "always",
   "endOfLine": "lf"
 }
-=======
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "printWidth": 100,
-    "arrowParens": "always",
-    "endOfLine": "lf"
-  }
->>>>>>> 89a294b (chore: Prettier 및 ESLint 설정 추가)
