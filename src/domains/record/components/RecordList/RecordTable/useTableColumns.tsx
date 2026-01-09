@@ -28,14 +28,14 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={120}
+            options={getUniqueValues('name').map(
+              (value) => ({
+                value,
+              })
+            )}
             onChange={(value) => {
               setFilter('name', value);
             }}
-            options={getUniqueValues('name').map(
-              (name) => ({
-                value: name,
-              })
-            )}
           />
         ),
       },
@@ -47,7 +47,14 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={249}
-            options={[{ value: '주소' }]}
+            options={getUniqueValues(
+              'address'
+            ).map((value) => ({
+              value,
+            }))}
+            onChange={(value) => {
+              setFilter('address', value);
+            }}
           />
         ),
       },
@@ -59,7 +66,14 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={249}
-            options={[{ value: '메모' }]}
+            options={getUniqueValues('memo').map(
+              (value) => ({
+                value,
+              })
+            )}
+            onChange={(value) => {
+              setFilter('memo', value);
+            }}
           />
         ),
       },
@@ -83,7 +97,14 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={249}
-            options={[{ value: '직업' }]}
+            options={getUniqueValues('job').map(
+              (value) => ({
+                value,
+              })
+            )}
+            onChange={(value) => {
+              setFilter('job', value);
+            }}
           />
         ),
       },
