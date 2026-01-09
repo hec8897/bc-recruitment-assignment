@@ -4,6 +4,7 @@ import type {
   FieldID,
   Record,
 } from '@/shared/type';
+import dayjs from 'dayjs';
 
 type FilterState = {
   [K in FieldID]: Record[K][];
@@ -18,6 +19,28 @@ interface RecordState {
   ) => void;
   getFilteredRecords: () => Record[];
 }
+
+const isMatchFilter = (
+  field: FieldID,
+  recordValue: any,
+  filterValues: any[]
+): boolean => {
+  if (filterValues.length === 0) return true;
+
+  // Date 타입 비교 - dayjs로 간단하게!
+  if (field === 'joinDate') {
+    return filterValues.some(
+      (fv) =>
+        dayjs(fv).isSame(
+          dayjs(recordValue),
+          'day'
+        ) // ⭐ 일(day) 단위로 비교
+    );
+  }
+
+  // 일반 타입 비교
+  return filterValues.includes(recordValue);
+};
 
 export const useRecordStore = create<RecordState>(
   (set, get) => ({
@@ -74,12 +97,10 @@ export const useRecordStore = create<RecordState>(
         return (
           Object.keys(filters) as FieldID[]
         ).every((field) => {
-          const filterValues = filters[field];
-          if (filterValues.length === 0)
-            return true;
-
-          return filterValues.some(
-            (fv) => fv === record[field]
+          return isMatchFilter(
+            field,
+            record[field],
+            filters[field]
           );
         });
       });

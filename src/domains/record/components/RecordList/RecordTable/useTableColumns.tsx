@@ -7,6 +7,7 @@ import RecordActionDropdown from './actions/RecordActionDropdown';
 import type { TableColumnsType } from 'antd';
 import type { Record } from '@/shared/type';
 import { useRecordStore } from '@/store/recordStore';
+import dayjs from 'dayjs';
 
 interface UseTableColumnsProps {
   onEditClick: (id: Pick<Record, 'id'>) => void;
@@ -82,10 +83,20 @@ export default function useTableColumns({
         dataIndex: 'joinDate',
         key: 'joinDate',
         width: 200,
+        render: (date: Date) =>
+          dayjs(date).format('YYYY-MM-DD'),
         filterDropdown: () => (
           <CheckboxListFilter
             width={200}
-            options={[{ value: '가입일' }]}
+            onChange={(value) => {
+              setFilter('joinDate', value);
+            }}
+            options={getUniqueValues(
+              'joinDate'
+            ).map((date) => ({
+              value:
+                dayjs(date).format('YYYY-MM-DD'),
+            }))}
           />
         ),
       },
