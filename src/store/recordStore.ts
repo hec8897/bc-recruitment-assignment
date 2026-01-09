@@ -1,13 +1,26 @@
 import { create } from 'zustand';
 
-import type { Record } from '@/shared/type';
+import type {
+  FieldID,
+  Record,
+} from '@/shared/type';
 
+type FilterState = {
+  [K in FieldID]: Record[K][];
+};
 interface RecordState {
   records: Record[];
+  filters: FilterState;
+  getUniqueValues: (field: FieldID) => string[];
+  setFilter: (
+    field: FieldID,
+    values: Record[FieldID][] // 배열
+  ) => void;
+  getFilteredRecords: () => Record[];
 }
 
 export const useRecordStore = create<RecordState>(
-  (set) => ({
+  (set, get) => ({
     records: [
       {
         id: '1',
@@ -28,5 +41,48 @@ export const useRecordStore = create<RecordState>(
         emailAgree: false,
       },
     ],
+    filters: {
+      name: [],
+      address: [],
+      memo: [],
+      joinDate: [],
+      job: [],
+      emailAgree: [],
+    },
+    getUniqueValues: (field: FieldID) => {
+      const records = get().records;
+      return Array.from(
+        new Set(
+          records.map((r) => r[field] as string)
+        )
+      );
+    },
+    setFilter: (
+      field: FieldID,
+      values: Record[FieldID][]
+    ) => {
+      set((state) => ({
+        filters: {
+          ...state.filters,
+          [field]: values,
+        },
+      }));
+    },
+    getFilteredRecords: () => {
+      const { records, filters } = get();
+      return records.filter((record) => {
+        return (
+          Object.keys(filters) as FieldID[]
+        ).every((field) => {
+          const filterValues = filters[field];
+          if (filterValues.length === 0)
+            return true;
+
+          return filterValues.some(
+            (fv) => fv === record[field]
+          );
+        });
+      });
+    },
   })
 );

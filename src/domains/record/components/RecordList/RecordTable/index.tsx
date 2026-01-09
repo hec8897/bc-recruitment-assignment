@@ -16,9 +16,10 @@ interface RecordTableProps {
 export default function RecordTable({
   onEditClick,
 }: RecordTableProps) {
-  const records = useRecordStore(
-    (state) => state.records
+  const getFilteredRecords = useRecordStore(
+    (state) => state.getFilteredRecords
   );
+  const records = getFilteredRecords();
 
   const columns = useTableColumns({
     onEditClick,

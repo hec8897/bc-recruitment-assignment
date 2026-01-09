@@ -6,6 +6,7 @@ import RecordActionDropdown from './actions/RecordActionDropdown';
 
 import type { TableColumnsType } from 'antd';
 import type { Record } from '@/shared/type';
+import { useRecordStore } from '@/store/recordStore';
 
 interface UseTableColumnsProps {
   onEditClick: (id: Pick<Record, 'id'>) => void;
@@ -14,6 +15,9 @@ interface UseTableColumnsProps {
 export default function useTableColumns({
   onEditClick,
 }: UseTableColumnsProps): TableColumnsType<Record> {
+  const { getUniqueValues, setFilter } =
+    useRecordStore();
+
   return useMemo(() => {
     return [
       {
@@ -24,7 +28,14 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={120}
-            options={[{ value: 'foobar' }]}
+            onChange={(value) => {
+              setFilter('name', value);
+            }}
+            options={getUniqueValues('name').map(
+              (name) => ({
+                value: name,
+              })
+            )}
           />
         ),
       },
@@ -109,5 +120,5 @@ export default function useTableColumns({
         ),
       },
     ];
-  }, [onEditClick]);
+  }, [onEditClick, getUniqueValues, setFilter]);
 }
