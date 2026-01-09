@@ -4,13 +4,11 @@ import { Dropdown, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
-import type { Record } from '@/shared/type';
 
-type ID = Pick<Record, 'id'>;
 interface RecordActionDropdownProps {
-  id: ID;
-  onEdit: (id: ID) => void;
-  onDelete: (id: ID) => void;
+  id: string; // ✅ 간단하게
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export default function RecordActionDropdown({

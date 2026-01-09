@@ -15,7 +15,7 @@ export default function RecordModal({
     <Modal
       title={<Title>회원 추가</Title>}
       open={isOpen}
-      onCancel={() => {}}
+      onCancel={onCancel}
       footer={
         <>
           <Button

@@ -102,12 +102,12 @@ export default function useTableColumns({
         align: 'center',
         render: (record: Record) => (
           <RecordActionDropdown
-            id={{ id: record.id }}
-            onEdit={onEditClick}
+            id={record.id}
+            onEdit={(id) => onEditClick({ id })}
             onDelete={() => {}}
           />
         ),
       },
     ];
-  }, []);
+  }, [onEditClick]);
 }
