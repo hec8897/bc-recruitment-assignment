@@ -22,6 +22,9 @@ interface RecordState {
   ) => void;
   getFilteredRecords: () => Record[];
   addRecord: (record: Omit<Record, 'id'>) => void;
+  getRecordById: (
+    id: string
+  ) => Record | undefined;
   updateRecord: (
     id: string,
     updatedData: Omit<Record, 'id'>
@@ -117,7 +120,12 @@ export const useRecordStore = create<RecordState>(
         ],
       }));
     },
-
+    getRecordById: (id: string) => {
+      const { records } = get();
+      return records.find(
+        (record) => record.id === id
+      );
+    },
     updateRecord: (
       id: string,
       updatedData: Omit<Record, 'id'>
