@@ -35,7 +35,6 @@ export default function RecordActionDropdown({
     key,
   }) => {
     if (key === 'edit') {
-      console.log('수정:', id);
       onEdit?.(id);
     } else if (key === 'delete') {
       console.log('삭제:', id);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Modal, Button, Form } from 'antd';
 import RecordForm from './RecordForm';
@@ -25,8 +25,14 @@ export default function RecordModal({
 }: RecordModalProps) {
   const [form] = Form.useForm<Record>();
   const { submittable } = useFormValidation(form);
+  const getRecordById = useRecordStore(
+    (state) => state.getRecordById
+  );
   const addRecord = useRecordStore(
     (state) => state.addRecord
+  );
+  const updateRecord = useRecordStore(
+    (state) => state.updateRecord
   );
 
   const onHandleSubmit = () => {
@@ -41,13 +47,27 @@ export default function RecordModal({
     if (mode === 'create') {
       addRecord(recordData);
     } else {
-      // 수정 로직
-      console.log('수정 로직', targetId);
+      targetId?.id &&
+        updateRecord(targetId?.id, recordData);
     }
 
     form.resetFields();
     onCancel();
   };
+
+  useEffect(() => {
+    if (mode === 'edit' && targetId?.id) {
+      const record = getRecordById(targetId.id);
+      if (record) {
+        form.setFieldsValue({
+          ...record,
+          joinDate: dayjs(record.joinDate),
+        });
+      }
+    } else {
+      form.resetFields();
+    }
+  }, [mode, targetId, getRecordById, form]);
 
   return (
     <Modal
