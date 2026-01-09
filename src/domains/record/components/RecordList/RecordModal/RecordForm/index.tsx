@@ -4,7 +4,7 @@ import { Form } from 'antd';
 import styled from '@emotion/styled';
 
 import renderField from './utils/renderField';
-import getFiledRules from './utils/getFieldRules';
+import getFieldRules from './utils/getFieldRules';
 
 import {
   FIELD_DEFINITIONS,
@@ -23,7 +23,7 @@ export default function RecordForm({
   const fieldsWithRules = useMemo(() => {
     return FIELD_DEFINITIONS.map((field) => ({
       ...field,
-      rules: getFiledRules({ field }),
+      rules: getFieldRules({ field }),
     }));
   }, []);
 

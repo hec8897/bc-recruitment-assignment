@@ -31,7 +31,7 @@ export interface BaseFieldDefinition {
   placeholder?: string;
 }
 
-export interface TextFiledDefinition extends BaseFieldDefinition {
+export interface TextFieldDefinition extends BaseFieldDefinition {
   type: 'text' | 'textarea';
   maxLength: 20 | 50;
 }
@@ -50,7 +50,7 @@ export interface CheckboxFieldDefinition extends BaseFieldDefinition {
 }
 
 export type FieldDefinition =
-  | TextFiledDefinition
+  | TextFieldDefinition
   | SelectFieldDefinition
   | DateFieldDefinition
   | CheckboxFieldDefinition;

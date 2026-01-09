@@ -1,13 +1,13 @@
 import type { Rule } from 'antd/es/form';
 import type { FieldDefinition } from '@/shared/type';
 
-interface GetFiledRulesProps {
+interface GetFieldRulesProps {
   field: FieldDefinition;
 }
 
-export default function getFiledRules({
+export default function getFieldRules({
   field,
-}: GetFiledRulesProps): Rule[] {
+}: GetFieldRulesProps): Rule[] {
   const rules: Rule[] = [];
 
   if (field.required) {
