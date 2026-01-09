@@ -6,7 +6,7 @@ import {
   Select,
 } from 'antd';
 
-import { type FieldDefinition } from '@/shared/type';
+import type { FieldDefinition } from '@/shared/type';
 
 export default function renderField(
   field: FieldDefinition
@@ -14,16 +14,12 @@ export default function renderField(
   switch (field.type) {
     case 'text':
       return (
-        <Input
-          placeholder={field.placeholder}
-          maxLength={field.maxLength}
-        />
+        <Input placeholder={field.placeholder} />
       );
     case 'textarea':
       return (
         <Input.TextArea
           placeholder={field.placeholder}
-          maxLength={field.maxLength || 0}
           rows={4}
         />
       );

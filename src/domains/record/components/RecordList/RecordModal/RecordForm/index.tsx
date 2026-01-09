@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Form } from 'antd';
 import styled from '@emotion/styled';
 
 import renderField from './utils/renderField';
+import getFiledRules from './utils/getFieldRules';
+
 import {
   FIELD_DEFINITIONS,
   type Record,
 } from '@/shared/type';
+
 import type { FormInstance } from 'antd';
 
 interface RecordFormProps {
@@ -17,6 +20,13 @@ interface RecordFormProps {
 export default function RecordForm({
   form,
 }: RecordFormProps) {
+  const fieldsWithRules = useMemo(() => {
+    return FIELD_DEFINITIONS.map((field) => ({
+      ...field,
+      rules: getFiledRules({ field }),
+    }));
+  }, []);
+
   return (
     <Form
       form={form}
@@ -24,11 +34,11 @@ export default function RecordForm({
       autoComplete="off"
     >
       <StyledForm>
-        {FIELD_DEFINITIONS.map((field) => (
+        {fieldsWithRules.map((field) => (
           <Form.Item
-            required={false}
             key={field.id}
             name={field.id}
+            required={false}
             label={
               <LabelWrapper>
                 {field.label}
@@ -37,12 +47,12 @@ export default function RecordForm({
                 )}
               </LabelWrapper>
             }
-            rules={[
-              {
-                required: field.required,
-                message: `${field.label}을(를) 입력하세요`,
-              },
-            ]}
+            rules={field.rules}
+            valuePropName={
+              field.type === 'checkbox'
+                ? 'checked'
+                : 'value'
+            }
           >
             {renderField(field)}
           </Form.Item>
