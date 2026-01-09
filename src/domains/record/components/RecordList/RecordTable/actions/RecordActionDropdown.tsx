@@ -4,18 +4,21 @@ import { Dropdown, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
+import { useRecordStore } from '@/store/recordStore';
 
 interface RecordActionDropdownProps {
-  id: string; // ✅ 간단하게
+  id: string;
   onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
 }
 
 export default function RecordActionDropdown({
   id,
   onEdit,
-  onDelete,
 }: RecordActionDropdownProps) {
+  const deleteRecord = useRecordStore(
+    (state) => state.deleteRecord
+  );
+
   const menuItems: MenuProps['items'] = [
     {
       key: 'edit',
@@ -37,8 +40,7 @@ export default function RecordActionDropdown({
     if (key === 'edit') {
       onEdit?.(id);
     } else if (key === 'delete') {
-      console.log('삭제:', id);
-      onDelete?.(id);
+      deleteRecord(id);
     }
   };
 

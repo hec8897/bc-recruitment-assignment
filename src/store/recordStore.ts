@@ -25,6 +25,7 @@ interface RecordState {
   getRecordById: (
     id: string
   ) => Record | undefined;
+  deleteRecord: (id: string) => void;
   updateRecord: (
     id: string,
     updatedData: Omit<Record, 'id'>
@@ -135,6 +136,13 @@ export const useRecordStore = create<RecordState>(
           record.id === id
             ? { ...record, ...updatedData }
             : record
+        ),
+      }));
+    },
+    deleteRecord: (id: string) => {
+      set((state) => ({
+        records: state.records.filter(
+          (record) => record.id !== id
         ),
       }));
     },
