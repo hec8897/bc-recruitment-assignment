@@ -25,9 +25,12 @@ export default function RecordHead({
       <Button
         onClick={onAddClick}
         style={{
-          width: '73px',
+          width: 73,
+          backgroundColor: '#4A7CFE',
+          borderColor: '#4A7CFE',
+          color: '#fff',
         }}
-        type="primary"
+        // type="primary"
         icon={
           <PlusOutlined
             style={{ fontSize: '16px' }}

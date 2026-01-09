@@ -36,7 +36,14 @@ const createRecordStore: StateCreator<
   getUniqueValues: (field: FieldID) => {
     const records = get().records;
     return Array.from(
-      new Set(records.map((r) => r[field]))
+      new Set(
+        records
+          .map((r) => r[field])
+          .filter(
+            (value) =>
+              value !== '' && value != null
+          )
+      )
     );
   },
   setFilter: (

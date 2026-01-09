@@ -12,11 +12,11 @@ export const isMatchFilter = (
   if (filterValues.length === 0) return true;
 
   if (field === 'joinDate') {
-    return filterValues.some((v) =>
-      dayjs(v as Date).isSame(
-        dayjs(recordValue as Date),
-        'day'
-      )
+    const recordDateStr = dayjs(
+      recordValue as Date
+    ).format('YYYY-MM-DD');
+    return filterValues.some(
+      (v) => v === recordDateStr
     );
   }
 

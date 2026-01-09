@@ -70,39 +70,65 @@ export default function RecordModal({
   }, [mode, targetId, getRecordById, form]);
 
   return (
-    <Modal
-      title={<Title>회원 추가</Title>}
-      open={isOpen}
-      onCancel={onCancel}
-      footer={
-        <>
-          <Button
-            style={{
-              width: 57,
-            }}
-            onClick={onCancel}
-          >
-            취소
-          </Button>
-          <Button
-            style={{
-              width: 57,
-            }}
-            disabled={!submittable}
-            type="primary"
-            onClick={onHandleSubmit}
-          >
-            추가
-          </Button>
-        </>
-      }
-    >
-      <RecordForm form={form} />
-    </Modal>
+    <ModalWrapper>
+      <Modal
+        title={
+          <Title>
+            {mode === 'create'
+              ? '회원 추가'
+              : '회원 수정'}
+          </Title>
+        }
+        open={isOpen}
+        onCancel={onCancel}
+        style={{
+          padding: 16,
+        }}
+        footer={
+          <>
+            <Button
+              style={{
+                width: 57,
+              }}
+              onClick={onCancel}
+            >
+              취소
+            </Button>
+            <Button
+              style={{
+                width: 57,
+                backgroundColor: '#4A7CFE',
+                borderColor: '#4A7CFE',
+                color: '#fff',
+              }}
+              disabled={!submittable}
+              type="primary"
+              onClick={onHandleSubmit}
+            >
+              추가
+            </Button>
+          </>
+        }
+      >
+        <div
+          style={{
+            padding: '10px 0',
+          }}
+        >
+          <RecordForm form={form} />
+        </div>
+      </Modal>
+    </ModalWrapper>
   );
 }
 
 const Title = styled.h2`
   font-size: 14px;
   font-weight: 600;
+`;
+
+const ModalWrapper = styled.div`
+  > .ant-modal-container {
+    padding: 16px;
+  }
 `;

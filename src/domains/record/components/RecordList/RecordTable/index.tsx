@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Table } from 'antd';
 import useTableColumns from './useTableColumns';
@@ -6,7 +6,6 @@ import useTableColumns from './useTableColumns';
 import { useRecordStore } from '@/store/recordStore';
 import styled from '@emotion/styled';
 
-import type { TableProps } from 'antd';
 import type { Record } from '@/shared/type';
 
 interface RecordTableProps {
@@ -25,30 +24,12 @@ export default function RecordTable({
     onEditClick,
   });
 
-  const rowSelection: TableProps<Record>['rowSelection'] =
-    useMemo(
-      () => ({
-        onChange: (
-          selectedRowKeys: React.Key[],
-          selectedRows: Record[]
-        ) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            'selectedRows:',
-            selectedRows
-          );
-        },
-      }),
-      []
-    );
-
   return (
     <TableWrapper>
       <Table<Record>
         rowKey="id"
         rowSelection={{
           type: 'checkbox',
-          ...rowSelection,
         }}
         columns={columns}
         dataSource={records}

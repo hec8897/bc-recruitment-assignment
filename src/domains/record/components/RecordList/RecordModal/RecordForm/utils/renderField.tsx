@@ -21,6 +21,9 @@ export default function renderField(
         <Input.TextArea
           placeholder={field.placeholder}
           rows={4}
+          style={{
+            height: 54,
+          }}
         />
       );
     case 'date':
