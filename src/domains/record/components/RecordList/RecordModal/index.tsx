@@ -5,6 +5,7 @@ import RecordForm from './RecordForm';
 
 import styled from '@emotion/styled';
 import type { Record } from '@/shared/type';
+import useFormValidation from './useFormValidation';
 
 interface RecordModalProps {
   isOpen: boolean;
@@ -16,9 +17,10 @@ export default function RecordModal({
   onCancel,
 }: RecordModalProps) {
   const [form] = Form.useForm<Record>();
+  const { submittable } = useFormValidation(form);
 
   const onHandleSubmit = () => {
-    const values = form.getFieldsValue(); // ⭐ 모든 필드 값 가져오기
+    const values = form.getFieldsValue();
     console.log('현재 Form 값:', values);
 
     form.submit();
@@ -43,6 +45,7 @@ export default function RecordModal({
             style={{
               width: 57,
             }}
+            disabled={!submittable}
             type="primary"
             onClick={onHandleSubmit}
           >

@@ -38,6 +38,7 @@ export default function RecordForm({
           <Form.Item
             key={field.id}
             name={field.id}
+            rules={field.rules}
             required={false}
             label={
               <LabelWrapper>
@@ -47,7 +48,6 @@ export default function RecordForm({
                 )}
               </LabelWrapper>
             }
-            rules={field.rules}
             valuePropName={
               field.type === 'checkbox'
                 ? 'checked'
