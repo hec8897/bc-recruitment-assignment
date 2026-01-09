@@ -72,7 +72,13 @@ export default function RecordModal({
   return (
     <ModalWrapper>
       <Modal
-        title={<Title>회원 추가</Title>}
+        title={
+          <Title>
+            {mode === 'create'
+              ? '회원 추가'
+              : '회원 수정'}
+          </Title>
+        }
         open={isOpen}
         onCancel={onCancel}
         style={{
