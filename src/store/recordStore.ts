@@ -18,10 +18,14 @@ interface RecordState {
   ) => (string | boolean | Date)[];
   setFilter: (
     field: FieldID,
-    values: Record[FieldID][] // 배열
+    values: Record[FieldID][]
   ) => void;
   getFilteredRecords: () => Record[];
   addRecord: (record: Omit<Record, 'id'>) => void;
+  updateRecord: (
+    id: string,
+    updatedData: Omit<Record, 'id'>
+  ) => void;
 }
 
 const isMatchFilter = (
@@ -37,7 +41,6 @@ const isMatchFilter = (
     );
   }
 
-  // 일반 타입 비교
   return filterValues.includes(recordValue);
 };
 
@@ -112,6 +115,19 @@ export const useRecordStore = create<RecordState>(
           ...state.records,
           { ...newRecord, id },
         ],
+      }));
+    },
+
+    updateRecord: (
+      id: string,
+      updatedData: Omit<Record, 'id'>
+    ) => {
+      set((state) => ({
+        records: state.records.map((record) =>
+          record.id === id
+            ? { ...record, ...updatedData }
+            : record
+        ),
       }));
     },
   })
