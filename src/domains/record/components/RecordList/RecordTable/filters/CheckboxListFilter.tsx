@@ -12,6 +12,7 @@ interface CheckboxListFilterProps {
   width?: number;
   options: {
     value: string | boolean;
+    label?: string;
   }[];
   onChange: (
     values: (string | boolean)[]
@@ -57,7 +58,9 @@ export default function CheckboxListFilter({
                 );
               }}
             />
-            <span>{option.value}</span>
+            <span>
+              {option.label || option.value}
+            </span>
           </Flex>
         ))}
       </Flex>

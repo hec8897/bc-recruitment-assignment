@@ -127,9 +127,18 @@ export default function useTableColumns({
         filterDropdown: () => (
           <CheckboxListFilter
             width={150}
+            onChange={(values) => {
+              setFilter(
+                'emailAgree',
+                values as boolean[]
+              );
+            }}
             options={[
-              { value: '선택됨' },
-              { value: '선택 안함' },
+              { value: true, label: '선택됨' },
+              {
+                value: false,
+                label: '선택 안함',
+              },
             ]}
           />
         ),
