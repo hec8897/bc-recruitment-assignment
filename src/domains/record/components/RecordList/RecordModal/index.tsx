@@ -6,24 +6,47 @@ import RecordForm from './RecordForm';
 import styled from '@emotion/styled';
 import type { Record } from '@/shared/type';
 import useFormValidation from './useFormValidation';
+import type { ModalMode } from '@/domains/record/hooks/useRecordModal';
+import dayjs from 'dayjs';
+import { useRecordStore } from '@/store/recordStore';
 
 interface RecordModalProps {
   isOpen: boolean;
   onCancel: () => void;
+  mode: ModalMode;
+  targetId: Pick<Record, 'id'> | null;
 }
 
 export default function RecordModal({
   isOpen,
   onCancel,
+  mode,
+  targetId,
 }: RecordModalProps) {
   const [form] = Form.useForm<Record>();
   const { submittable } = useFormValidation(form);
+  const addRecord = useRecordStore(
+    (state) => state.addRecord
+  );
 
   const onHandleSubmit = () => {
     const values = form.getFieldsValue();
-    console.log('현재 Form 값:', values);
+    const recordData = {
+      ...values,
+      joinDate:
+        values.joinDate instanceof Date
+          ? values.joinDate
+          : dayjs(values.joinDate).toDate(),
+    };
+    if (mode === 'create') {
+      addRecord(recordData);
+    } else {
+      // 수정 로직
+      console.log('수정 로직', targetId);
+    }
 
-    form.submit();
+    form.resetFields();
+    onCancel();
   };
 
   return (

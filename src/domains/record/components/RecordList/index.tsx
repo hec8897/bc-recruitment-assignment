@@ -13,6 +13,8 @@ export default function RecordList() {
     closeModal,
     openCreateModal,
     isOpen,
+    mode,
+    targetId,
   } = useRecordModal();
   return (
     <Container>
@@ -21,6 +23,8 @@ export default function RecordList() {
       <RecordModal
         isOpen={isOpen}
         onCancel={closeModal}
+        mode={mode}
+        targetId={targetId || null}
       />
     </Container>
   );

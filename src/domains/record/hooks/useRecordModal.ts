@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { Record } from '@/shared/type';
 
-type ModalMode = 'create' | 'edit';
+export type ModalMode = 'create' | 'edit';
 
 /**
  * 모달 상태 관리 Hook

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
 
 import type {
   FieldID,
@@ -20,6 +21,7 @@ interface RecordState {
     values: Record[FieldID][] // 배열
   ) => void;
   getFilteredRecords: () => Record[];
+  addRecord: (record: Omit<Record, 'id'>) => void;
 }
 
 const isMatchFilter = (
@@ -29,14 +31,9 @@ const isMatchFilter = (
 ): boolean => {
   if (filterValues.length === 0) return true;
 
-  // Date 타입 비교 - dayjs로 간단하게!
   if (field === 'joinDate') {
-    return filterValues.some(
-      (fv) =>
-        dayjs(fv).isSame(
-          dayjs(recordValue),
-          'day'
-        ) // ⭐ 일(day) 단위로 비교
+    return filterValues.some((fv) =>
+      dayjs(fv).isSame(dayjs(recordValue), 'day')
     );
   }
 
@@ -104,6 +101,18 @@ export const useRecordStore = create<RecordState>(
           );
         });
       });
+    },
+    addRecord: (
+      newRecord: Omit<Record, 'id'>
+    ) => {
+      const id = uuidv4();
+
+      set((state) => ({
+        records: [
+          ...state.records,
+          { ...newRecord, id },
+        ],
+      }));
     },
   })
 );
