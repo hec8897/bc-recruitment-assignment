@@ -2,11 +2,19 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import styled from '@emotion/styled';
 
-export default function RecordModal() {
+interface RecordModalProps {
+  isOpen: boolean;
+  onCancel: () => void;
+}
+
+export default function RecordModal({
+  isOpen,
+  onCancel,
+}: RecordModalProps) {
   return (
     <Modal
       title={<Title>회원 추가</Title>}
-      open={true}
+      open={isOpen}
       onCancel={() => {}}
       footer={
         <>
@@ -14,6 +22,7 @@ export default function RecordModal() {
             style={{
               width: 57,
             }}
+            onClick={onCancel}
           >
             취소
           </Button>
