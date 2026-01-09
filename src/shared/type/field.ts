@@ -6,7 +6,7 @@ export const FIELD_LABELS = {
   address: '주소',
   memo: '메모',
   joinDate: '가입일',
-  job: '',
+  job: '직업',
   emailAgree: '이메일 수신 동의',
 } as const;
 
@@ -31,7 +31,7 @@ export interface BaseFieldDefinition {
   placeholder?: string;
 }
 
-export interface TextFiledDefinition extends BaseFieldDefinition {
+export interface TextFieldDefinition extends BaseFieldDefinition {
   type: 'text' | 'textarea';
   maxLength: 20 | 50;
 }
@@ -50,7 +50,7 @@ export interface CheckboxFieldDefinition extends BaseFieldDefinition {
 }
 
 export type FieldDefinition =
-  | TextFiledDefinition
+  | TextFieldDefinition
   | SelectFieldDefinition
   | DateFieldDefinition
   | CheckboxFieldDefinition;

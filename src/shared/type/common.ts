@@ -7,7 +7,6 @@ export type Job =
 export const JOB_OPTIONS: readonly {
   value: Job;
 }[] = [
-  { value: '' },
   { value: '개발자' },
   { value: 'PO' },
   { value: '디자이너' },

@@ -33,6 +33,9 @@ module.exports = [
       'react-refresh': reactRefresh,
       prettier,
     },
+    ignorePatterns: ['dist', '.eslintrc.cjs'],
+    parser: '@typescript-eslint/parser',
+    plugins: ['react-refresh'],
     rules: {
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
@@ -50,7 +53,7 @@ module.exports = [
         {
           varsIgnorePattern: '^React$',
           argsIgnorePattern: '^_',
-        }
+        },
       ],
     },
   },
