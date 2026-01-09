@@ -5,71 +5,15 @@ import type {
   FieldID,
   Record,
 } from '@/shared/type';
-import dayjs from 'dayjs';
 
-type FilterState = {
-  [K in FieldID]: Record[K][];
-};
-interface RecordState {
-  records: Record[];
-  filters: FilterState;
-  getUniqueValues: (
-    field: FieldID
-  ) => (string | boolean | Date)[];
-  setFilter: (
-    field: FieldID,
-    values: Record[FieldID][]
-  ) => void;
-  getFilteredRecords: () => Record[];
-  addRecord: (record: Omit<Record, 'id'>) => void;
-  getRecordById: (
-    id: string
-  ) => Record | undefined;
-  deleteRecord: (id: string) => void;
-  updateRecord: (
-    id: string,
-    updatedData: Omit<Record, 'id'>
-  ) => void;
-}
+import { isMatchFilter } from './recordStore.util';
+import { mockRecords } from './mock';
 
-const isMatchFilter = (
-  field: FieldID,
-  recordValue: any,
-  filterValues: any[]
-): boolean => {
-  if (filterValues.length === 0) return true;
-
-  if (field === 'joinDate') {
-    return filterValues.some((fv) =>
-      dayjs(fv).isSame(dayjs(recordValue), 'day')
-    );
-  }
-
-  return filterValues.includes(recordValue);
-};
+import type { RecordState } from './recordStore.type';
 
 export const useRecordStore = create<RecordState>(
   (set, get) => ({
-    records: [
-      {
-        id: '1',
-        name: 'John Doe',
-        address: '서울 강남구',
-        memo: '외국인',
-        joinDate: new Date('2024-10-02'),
-        job: '개발자',
-        emailAgree: true,
-      },
-      {
-        id: '2',
-        name: 'Foo Bar',
-        address: '서울 서초구',
-        memo: '한국인',
-        joinDate: new Date('2024-10-01'),
-        job: 'PO',
-        emailAgree: false,
-      },
-    ],
+    records: mockRecords,
     filters: {
       name: [],
       address: [],
