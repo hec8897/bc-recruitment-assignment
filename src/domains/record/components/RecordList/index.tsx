@@ -4,12 +4,24 @@ import RecordHead from './RecordHead';
 import RecordTable from './RecordTable';
 
 import styled from '@emotion/styled';
+import RecordModal from './RecordModal';
+import useRecordModal from '../../hooks/useRecordModal';
 
 export default function RecordList() {
+  const {
+    openEditModal,
+    closeModal,
+    openCreateModal,
+    isOpen,
+  } = useRecordModal();
   return (
     <Container>
-      <RecordHead />
-      <RecordTable />
+      <RecordHead onAddClick={openCreateModal} />
+      <RecordTable onEditClick={openEditModal} />
+      <RecordModal
+        isOpen={isOpen}
+        onCancel={closeModal}
+      />
     </Container>
   );
 }

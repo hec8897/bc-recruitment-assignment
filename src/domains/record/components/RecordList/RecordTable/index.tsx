@@ -9,8 +9,16 @@ import styled from '@emotion/styled';
 import type { TableProps } from 'antd';
 import type { Record } from '@/shared/type';
 
-export default function RecordTable() {
-  const columns = useTableColumns();
+interface RecordTableProps {
+  onEditClick: (id: Pick<Record, 'id'>) => void;
+}
+
+export default function RecordTable({
+  onEditClick,
+}: RecordTableProps) {
+  const columns = useTableColumns({
+    onEditClick,
+  });
   const rowSelection: TableProps<Record>['rowSelection'] =
     useMemo(
       () => ({

@@ -5,7 +5,13 @@ import styled from '@emotion/styled';
 import { Button, Flex } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-export default function RecordHead() {
+interface RecordHeadProps {
+  onAddClick: () => void;
+}
+
+export default function RecordHead({
+  onAddClick,
+}: RecordHeadProps) {
   return (
     <Flex
       justify="space-between"
@@ -17,6 +23,7 @@ export default function RecordHead() {
     >
       <Title>회원 목록</Title>
       <Button
+        onClick={onAddClick}
         style={{
           width: '73px',
         }}

@@ -2,11 +2,18 @@ import React, { useMemo } from 'react';
 
 import { Checkbox } from 'antd';
 import CheckboxListFilter from './filters/CheckboxListFilter';
+import RecordActionDropdown from './actions/RecordActionDropdown';
 
 import type { TableColumnsType } from 'antd';
 import type { Record } from '@/shared/type';
 
-export default function useTableColumns(): TableColumnsType<Record> {
+interface UseTableColumnsProps {
+  onEditClick: (id: Pick<Record, 'id'>) => void;
+}
+
+export default function useTableColumns({
+  onEditClick,
+}: UseTableColumnsProps): TableColumnsType<Record> {
   return useMemo(() => {
     return [
       {
@@ -90,9 +97,17 @@ export default function useTableColumns(): TableColumnsType<Record> {
       },
       {
         title: '',
-        dataIndex: '',
-        key: '',
+        key: 'action',
+        width: 60,
+        align: 'center',
+        render: (record: Record) => (
+          <RecordActionDropdown
+            id={record.id}
+            onEdit={(id) => onEditClick({ id })}
+            onDelete={() => {}}
+          />
+        ),
       },
     ];
-  }, []);
+  }, [onEditClick]);
 }
