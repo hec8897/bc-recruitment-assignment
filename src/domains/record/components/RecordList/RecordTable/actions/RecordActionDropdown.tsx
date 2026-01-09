@@ -2,6 +2,7 @@
 import React from 'react';
 import { Dropdown, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
+
 import type { MenuProps } from 'antd';
 import type { Record } from '@/shared/type';
 

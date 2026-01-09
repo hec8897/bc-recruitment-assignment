@@ -17,7 +17,7 @@ export default function RecordList() {
   return (
     <Container>
       <RecordHead onAddClick={openCreateModal} />
-      <RecordTable />
+      <RecordTable onEditClick={openEditModal} />
       <RecordModal
         isOpen={isOpen}
         onCancel={closeModal}

@@ -7,7 +7,13 @@ import RecordActionDropdown from './actions/RecordActionDropdown';
 import type { TableColumnsType } from 'antd';
 import type { Record } from '@/shared/type';
 
-export default function useTableColumns(): TableColumnsType<Record> {
+interface UseTableColumnsProps {
+  onEditClick: (id: Pick<Record, 'id'>) => void;
+}
+
+export default function useTableColumns({
+  onEditClick,
+}: UseTableColumnsProps): TableColumnsType<Record> {
   return useMemo(() => {
     return [
       {
@@ -97,7 +103,7 @@ export default function useTableColumns(): TableColumnsType<Record> {
         render: (record: Record) => (
           <RecordActionDropdown
             id={{ id: record.id }}
-            onEdit={() => {}}
+            onEdit={onEditClick}
             onDelete={() => {}}
           />
         ),
