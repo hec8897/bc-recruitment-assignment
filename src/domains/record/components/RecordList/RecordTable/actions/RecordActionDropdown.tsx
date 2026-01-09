@@ -1,4 +1,3 @@
-// RecordTable/actions/RecordActionDropdown.tsx
 import React from 'react';
 import { Dropdown, Button } from 'antd';
 import { MoreOutlined } from '@ant-design/icons';
